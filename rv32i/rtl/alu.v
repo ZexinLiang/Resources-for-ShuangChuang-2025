@@ -18,8 +18,9 @@ module alu(
     // 比较（有符号小于）
     wire slt_res = ($signed(src1) < $signed(src2)) ? 1'b1 : 1'b0;
 
-    // 右移 (SRA)
+    // 右移
     wire [31:0] shift_right_res = src1 >> src2[4:0];
+    wire [31:0] shift_right_arith_res = $signed(src1) >>> src2[4:0];
 
     // 左移 (SLL)
     wire [31:0] shift_left_res  = src1 << src2[4:0];
@@ -44,7 +45,7 @@ module alu(
             // 移位运算
             4'b0111: result = shift_left_res;     // SLL
             4'b1000: result = shift_right_res;    // SRL
-            4'b1001: result = shift_right_res;    // SRA
+            4'b1001: result = shift_right_arith_res; // SRA
 
             default: result = 32'b0;
         endcase
